@@ -12,6 +12,7 @@ import {
     Button,
     Heading,
     Text,
+    Label,
     useColorModeValue,
     Link,
   } from '@chakra-ui/react';
@@ -19,21 +20,27 @@ import { useState,useContext} from 'react';
 import { ViewIcon, ViewOffIcon} from '@chakra-ui/icons';
 import { Formik, useFormik } from "formik";
 import AuthContext from "../../context/AuthContext";
+import { useToast } from '@chakra-ui/react';
 export default function SignupCard() {
-  const {registerUser} = useContext(AuthContext);
+
+  const {registerUser,errors} = useContext(AuthContext);
+
+  const [submitted,setSubmitted]=useState(false);
+  const toast = useToast()
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [firstname,setFirstname]=useState('');
   const [lastname,setLastname]=useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
-  const [errors, setErrors] = useState(false);
   const [loading,setLoading] = useState(true);
   const handleSubmit = async e => {
     e.preventDefault();
     registerUser(firstname,lastname,email, password);
   };
-
+  console.log(errors)
+  
     // const { control, handleSubmit } = useForm({
     //   defaultValues: {
     //     firstName: '',
@@ -133,7 +140,10 @@ export default function SignupCard() {
                   value={email}
                   onChange={e=>setEmail(e.target.value)}
                />
-              </FormControl>
+                 <FormLabel display={errors?.email?'flex':'none'}>
+                 <small>{errors?.email?errors.email:null}</small>
+                 </FormLabel>
+             </FormControl>
               <FormControl id="password" isRequired>
                 <FormLabel>كلمة السر </FormLabel>
                 <InputGroup>
@@ -151,6 +161,7 @@ export default function SignupCard() {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
+                <small>{errors?.password?errors.password:null}</small>
               </FormControl>
               <FormControl id="password" isRequired>
                 <FormLabel>تأكيد كلمة السر</FormLabel>
@@ -177,8 +188,24 @@ export default function SignupCard() {
             </Button>
               </Stack>
               <Stack pt={6}>
-                <Button  align={'center'}>
-                  لديك حساب بالفعل <Link color={'blue.400'}>تسجيل دخول</Link>
+                <Button
+                onClick={() => {!submitted?
+                 toast({
+                    title: apiMessage,
+                    description:apiMessage ,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                  }): toast({
+                    title: 'property created.',
+                    description: "We've add your property to listings.",
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                  })
+                }}
+                  align={'center'}>
+                  لديك حساب بالفعل <Link href="/accounts/login" color={'blue.400'}>تسجيل دخول</Link>
                 </Button>
               </Stack>
             </Stack>

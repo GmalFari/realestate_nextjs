@@ -7,6 +7,7 @@ import NProgress  from "nprogress";
 import { useEffect,createContext } from "react";
 import "./carousel.scss";
 import { AuthProvider } from "../context/AuthContext";
+import paginateCss from "../styles/pagination.css"
 const mapContext = createContext()
 
 function MyApp({Component,pageProps,router}){
@@ -25,7 +26,7 @@ function MyApp({Component,pageProps,router}){
         };
       }, [router]);
     return (
-        
+    
         <ChakraProvider theme={extendTheme({ direction: "rtl" })}>
             <AuthProvider>
                     <Layout>

@@ -33,7 +33,6 @@ import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import AuthContext from "../context/AuthContext";
 
-
 const Form1 = ({data,
                 handleChange,
                 purposeList,
@@ -43,7 +42,7 @@ const Form1 = ({data,
     <>
     
       <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
-      أعلن عن عقارك 
+      أطلب عقار
       </Heading>
       
       <FormControl as={GridItem} colSpan={[6, 3]}>
@@ -99,14 +98,13 @@ const Form1 = ({data,
           w="full"
           rounded="md"
           onChange={handleChange}
-          value={data.purpose}
           >
           {purposeList.map((purposeItem,index)=>(
           <option key={index} >{purposeItem}</option>
           ))}
         </Select>
       </FormControl>
-      {data.isForRent && <Box width={["100%","fit-content"]}>
+     <Box width={["100%","fit-content"]}>
         <FormLabel htmlFor="view" fontWeight={'normal'}>
           عقد الإيجار
           </FormLabel>
@@ -128,7 +126,7 @@ const Form1 = ({data,
         )
   })}
         </Select>
-        </Box>}
+        </Box>
       <FormControl as={GridItem} colSpan={[6, 3]}>
         <FormLabel
           htmlFor="city"
@@ -258,85 +256,21 @@ const Form2 = ({myData,setData,title,handleChange,setTitle,setImg}) => {
       </Heading>
       <SimpleGrid columns={1} spacing={6}>
       <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
-        <FormLabel
-          htmlFor="title"
-          fontSize="sm"
-          fontWeight="md"
-          color="gray.700"
-          _dark={{
-            color: 'gray.50',
-          }}
-          mt="2%">
-          عنوان الإعلان بالعربي
-        </FormLabel>
         <Input
           type="text"
-          name="property_title"
+          name="order_title"
           id="title"
           focusBorderColor="brand.400"
           shadow="sm"
           size="sm"
           w="full"
           rounded="md"
-          value={myData.property_title}
+          value={myData.order_title}
           onChange={handleChange}
           // onChange={e=>{setTitle(e.target.value)}}
         />
       </FormControl>
-      <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
-        <FormLabel
-          htmlFor="title"
-          fontSize="sm"
-          fontWeight="md"
-          color="gray.700"
-          _dark={{
-            color: 'gray.50',
-          }}
-          mt="2%">
-          الصورة الرئيسية للعقار
-        </FormLabel>
-        <Input
-          type="file"
-          name="coverPhoto"
-          accept="image/png, image/jpeg"                       
-          id="mainImg"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="sm"
-          w="full"
-          rounded="md"
-          onChange={(e)=>setData({...myData,coverPhoto:e.target.files[0]})}
-          // onChange={e=>{e.target.mainImg.files[0]}}
-
-        />
-      </FormControl>
-      <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
-        <FormLabel
-          htmlFor="videoURL"
-          fontSize="sm"
-          fontWeight="md"
-          color="gray.700"
-          _dark={{
-            color: 'gray.50',
-          }}
-          mt="2%">
-          رابط الفيديو للعقار على اليوتيوب
-        </FormLabel>
-        <Input
-          type="text"
-          name="videoURL"
-          id="videoURL"
-          autoComplete="city"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="sm"
-          w="full"
-          rounded="md"
-          placeholder='https://www.youtube.com/watch?v=MGrQa4ElR8M'
-        />
-      </FormControl>
-
-        <FormControl as={GridItem} id="email" mt={1}>
+        <FormControl as={GridItem} id="desc" mt={1}>
           <FormLabel
             fontSize="sm"
             fontWeight="md"
@@ -356,7 +290,7 @@ const Form2 = ({myData,setData,title,handleChange,setTitle,setImg}) => {
             }}
           />
           <FormHelperText>
-          التفاصيل الكاملة للعقار
+          التفاصيل الكاملة للطلب
           </FormHelperText>
         </FormControl>
         
@@ -364,7 +298,7 @@ const Form2 = ({myData,setData,title,handleChange,setTitle,setImg}) => {
     </>
   );
 };
-const Form3 = ({setPropertyLocation,ChooseLocation}) => {
+const Form3 = () => {
   const [selectView ,setSelectView] =useState()
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
@@ -427,73 +361,25 @@ const Form3 = ({setPropertyLocation,ChooseLocation}) => {
         </Box>
         <Box width={["100%","fit-content"]}>
         <FormLabel htmlFor="view" fontWeight={'normal'}>
-         قابلية للتفاوض
-          </FormLabel>
-        <Select
-          direction="rtl"
-          id="typeProperty"
-          name="typeProperty"
-          autoComplete="typeProperty"
-          placeholder=""
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="md"
-          w="full"
-          rounded="md"
-          onChange={handleViewChange}
-          >
-            <option value={'قابل للتفاوض'} >قابل للتفاوض</option>
-            <option value={'غير قابل للتفاوض'} > غير قابل للتفاوض</option>
-
-        </Select>
-        </Box>
-        <Box width={["100%","fit-content"]}>
-          <FormLabel htmlFor="baths" fonsSize={'sm'} fontWeight={'normal'}>
-          سنة الإنشاء
-          </FormLabel>
-          <Input type="number" id="price"  placeholder='2010:مثال'/>
-        </Box>
-        <Box width={["100%","fit-content"]}>
-        <FormLabel htmlFor="view" fontWeight={'normal'}>
           نوع التشطيب
           </FormLabel>
-        <Select
-          direction="rtl"
-          id="typeProperty"
-          name="typeProperty"
-          autoComplete="typeProperty"
-          placeholder=""
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="md"
-          w="full"
-          rounded="md"
-          onChange={handleViewChange}
-          >
-            <option value={' تشطيب كامل'} >تشطيب كامل </option>
-            <option value={' عظم '} >  عظم </option>
-            <option value={' تشطيب جزئي'} >تشطيب جزئي </option>
-        </Select>
-        </Box>
-        </Grid>
-        <FormControl>
-        <FormLabel htmlFor="password" fontWeight={'normal'} mt="2%">
-          عنوان العقار
-        </FormLabel>
           <Input
             pr="4.5rem"
             type={'text'}
           />
-           <MyMap sizes={{mapW:"100%",mapH:400}} 
-                  setPropertyLocation={setPropertyLocation} 
-                  ChooseLocation={ChooseLocation} 
-                  geoDetail={["24.50685","54.407687"]} />
+        </Box>
+        </Grid>
+        <FormControl>
+          <Input
+            pr="4.5rem"
+            type={'text'}
+          />
       </FormControl>
     </>
   );
 };
 
-export default function Multistep({myData,setData}) {
+export default function CustOrders({myData,setData}) {
   const [submitted,setSubmitted]=useState(false);
   const [apiMessage,setApiMessage]= useState([])
  const newData = Object.keys(apiMessage).map((key) => {
@@ -520,8 +406,7 @@ export default function Multistep({myData,setData}) {
   const [progress, setProgress] = useState(33.33);
 
   //form1
-
-  const purposeList = ['للإيجار','للبيع']
+  const purposeList = ['للإيجار','للشراء']
   const rentFrequencyList = ['يومي','اسبوعي','شهري','سنوي','نصف سنوي','ربع سنوي']
  //  //form2
    const [img,setImg] = useState("")
@@ -529,11 +414,6 @@ export default function Multistep({myData,setData}) {
   // const [data,setData] = useState(myData)
   
    //form3
-   const [propertyLocation,setPropertyLocation] = useState({
-          longitude:44.20729970272413,latitude:15.348533564724178})
-   function ChooseLocation(position){
-    setPropertyLocation({longitude:position['longitude'],latitude:position['latitude']})
-}
   
 
   let testApi = async(e)=>{
@@ -557,30 +437,9 @@ export default function Multistep({myData,setData}) {
         },
 
         body: JSON.stringify(
-          {...myData,
-            // ,
-          //   "location": `{
-          //     "type": "Point",
-          //     "coordinates": [
-          //         ${},
-          //         ${e.target.longitude.value}
-          //     ]
-          // }`
-          // "property_title":myData.property_title,
+          {...myData
+            
           }
-          
-        //   {
-        //   "purpose":e.target.purpose.value,
-        //   "location": `{
-        //     "type": "Point",
-        //     "coordinates": [
-        //         ${e.target.latitude.value},
-        //         ${e.target.longitude.value}
-        //     ]
-        // }`,
-        // "main_img":e.target.mainImg.files[0]
-
-        // }
         )
       };
 
@@ -615,7 +474,7 @@ export default function Multistep({myData,setData}) {
     };
 
     const handleChange = (e) => {
-      console.log(myData.property_title)
+      console.log(myData.order_title)
 
       setData({
         ...myData,
@@ -634,20 +493,20 @@ export default function Multistep({myData,setData}) {
         m="10px auto"
         as="form">
         <Progress
-          hasStripe
+        //   hasStripe
           value={progress}
           mb="5%"
           mx="5%"
-          isAnimated></Progress>
+          isAnimated
+          ></Progress>
         {step === 1 ? <Form1 
                         data={myData}
                         purposeList={purposeList}
                         rentFrequencyList={rentFrequencyList}
-                        data={myData}
                         handleChange={handleChange}
                         />
-                         : step === 2 ? <Form2 myData={myData} setData={setData} handleChange={handleChange} title={myData.property_title}  setImg={setImg} /> :
-                          <Form3 setPropertyLocation={setPropertyLocation} ChooseLocation={ChooseLocation} />}
+                         : step === 2 ? <Form2 myData={myData} setData={setData} handleChange={handleChange} title={myData.order_title}  setImg={setImg} /> :
+                          <Form3  />}
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
@@ -680,7 +539,7 @@ export default function Multistep({myData,setData}) {
               </Button>
             </Flex>
             {step === 3 ? (
-              <form onSubmit={testApi} enctype="multipart/form-data">  
+              <form onSubmit={testApi}>  
                           <Button
                 type="submit"
                 w="8rem"
@@ -689,7 +548,7 @@ export default function Multistep({myData,setData}) {
                 onClick={() => {submitted?
         
               toast({
-                title: `لقد تم إضافة العقار`,
+                title: `لقد تم إضافة الطلب`,
 
                 status:'success',
                 isClosable: true,
@@ -708,7 +567,7 @@ export default function Multistep({myData,setData}) {
             
                 }}
                 >
-                إضافة عقار
+                إضافة طلب
               </Button>
         </form>
             ) : null}
@@ -719,3 +578,5 @@ export default function Multistep({myData,setData}) {
     </>
   );
 }
+
+// export default CustOrders;

@@ -15,14 +15,50 @@ import Map, { GeolocateControl } from "react-map-gl";
 import {GoKebabVertical } from 'react-icons/go';
 import { BsSortDown } from 'react-icons/bs';
 import {FaGripHorizontal,FaList} from 'react-icons/fa';
-
-import "mapbox-gl/dist/mapbox-gl.css"
-
-const Search = ({properties}) => {
-    
+import axios from 'axios';
+import "mapbox-gl/dist/mapbox-gl.css";
+import { Button } from '@chakra-ui/react';
+import Pagination from '../components/Pagination';
+// import { paginate } from '../helper/paginate';
+const Search = ({data}) => {
+    const myproperties = data?.results
+    const [pageCount,setPageCount] = useState(data?.count);
+    const itemsCount = Math.round(pageCount/3)
+    const [properties,setProperties] = useState(myproperties)
     const [searchFilter,setSearchFilter] = useState(false);
-    const router = useRouter();
     const [toggleVerticalCard,setToggleVerticalCard] = useState('true');
+    const router = useRouter()
+    const [currentPage, setCurrentPage] = useState(1);
+    console.log(pageCount)
+    const pageSize = 3;
+
+
+    const onPageChange = (page) => {
+      setCurrentPage(page);
+    };
+    
+    useEffect(() => {
+        if(currentPage < 1){
+            setCurrentPage(1)
+        }
+        if(currentPage > itemsCount){
+            setCurrentPage(itemsCount)
+        }
+        const path = router.pathname;
+        const {query } = router;  
+        query["page"] = currentPage
+        router.push({pathname:path,query})
+
+        axios.get(`http://127.0.0.1:8000/api/list-properties/?page=${currentPage}`)
+          .then((response) => {
+            setPageCount(response.data.count)
+            setProperties(response.data.results);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, [currentPage]);
+
     const listingsH = [properties.map((property) =>
                <HorizonalCard   property={property} key={property.id} /> 
                    )];
@@ -46,7 +82,7 @@ const Search = ({properties}) => {
         <Text> Search properties by filter </Text>
         <Icon paddingLeft="2" w="7" as={BsFilter} />
         </Flex>
-        {searchFilter && <SearchFilter/>}
+        {searchFilter && <SearchFilter setProperties={setProperties}/>}
         <Flex justifyContent={'space-between'} fontSize={['md','xl','xl','2xl']} p="4" fontWeight="bold">
         <Flex color={'#006169'} flexGrow={1} justifyContent={'right'} >
         <Icon 
@@ -67,12 +103,46 @@ const Search = ({properties}) => {
 
         </Flex>
         <Text>
-            properties {router.query.minPrice}
         </Text>
         </Flex>
         <Flex flexDirection={['column']}  flexWrap="wrap" justifyContent="center" alignItems="center" >
             {!toggleVerticalCard?listingsV:listingsH}
           </Flex>
+         <Flex justifyContent={"center"}>
+         <li style={{
+            "display": "flex",
+          "justify-content": "center",
+         " align-items": "center",
+          "paddingRight": "0.5rem",
+          "paddingLeft": "0.5rem",
+          "margin":"0 20px",
+          "border": "1px solid #eaeaea",
+          "border-radius": "0.5rem",
+          "cursor": "pointer"
+         }}
+         onClick={()=>{setCurrentPage(currentPage -1)}}
+         >Previous</li>
+         <Pagination
+                items={itemsCount} // 100
+                currentPage={currentPage} // 1
+                pageSize={pageSize} // 10
+                onPageChange={onPageChange}
+            />
+            <li style={{   "display": "flex",
+          "justify-content": "center",
+         " align-items": "center",
+          "paddingRight": "0.5rem",
+          "paddingLeft": "0.5rem",
+          "margin":"0 20px",
+          "border": "1px solid #eaeaea",
+          "border-radius": "0.5rem",
+          "cursor": "pointer"
+        }}
+        onClick={()=>{setCurrentPage(currentPage  + 1)}}
+        >
+                next
+            </li>
+         </Flex>
         {properties.length === 0 && (
             <Flex justifyContent="center" alignItems="center" flexDirection="column" marginTop="5" marginBottom="5">
             <Image width="auto" height="auto" alt="no result" src={noresult}/>
@@ -87,7 +157,7 @@ export default Search
 
 
 export async function getServerSideProps({query}) {
-    const purpose = query.purpose || 'for-rent';
+    const purpose = query.purpose || 'for rent';
     const rentFrequency = query.rentFrequency || 'yearly';
     const minPrice = query.minPrice || '0';
     const maxPrice = query.maxPrice || '1000000';
@@ -102,7 +172,7 @@ export async function getServerSideProps({query}) {
         const data = await fetchApi(`http://127.0.0.1:8000/api/list-properties/`)
                     return {
                         props:{
-                            properties:data?.results
-                        }
+                            data:data,
+                              }
                     }
 }

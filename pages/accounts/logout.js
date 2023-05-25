@@ -1,13 +1,25 @@
-import React from 'react'
-import { Button } from '@chakra-ui/react'
-import { useContext } from 'react'
-import AuthContext from '../../context/AuthContext'
+import { Box } from "@chakra-ui/react";
+import MainAlert from "../../components/MainAlert";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 const Logout = () => {
-    const {logoutUser} = useContext(AuthContext)
+    const authTokens = localStorage.getItem("authTokens");
+    const router = useRouter()
+    useEffect(()=>{
+      if(!authTokens){
+        router.push("/")
+      }
+    },[authTokens])
   return (
-    <div>
-    <p>هل أنت متأكد أنك تريد تسجيل الخروج</p> <Button onClick={logoutUser}>خروج</Button>
-    </div>
+    <Box marginTop="5em" textAlign="center">
+    {authTokens?
+    <Box>
+    <Box>هل أنت متأكد أنك تريد تسجيل الخروج</Box>
+    <MainAlert/>
+    </Box>
+    :null
+    }
+    </Box>
   )
 }
 

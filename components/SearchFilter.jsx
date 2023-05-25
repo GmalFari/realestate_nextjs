@@ -1,11 +1,11 @@
 import React from 'react'
 import { useEffect,useState } from 'react';
 import {Flex,Select ,Box,Text,Input,Spinner,Icon,Button} from '@chakra-ui/react';
-import  { useRouter } from 'next/router';
+import  { useRouter,Router } from 'next/router';
 import {MdCancel} from 'react-icons/md';
 import Image from 'next/image';
 import {filterData,getFilterValues} from "../utils/filterData";
-const SearchFilter = () => {
+const SearchFilter = ({setProperties}) => {
   const [filters] = useState(filterData);
   const [searchTerm, setSearchTerm] = useState('');
   const [locationData, setLocationData] = useState();
@@ -30,12 +30,12 @@ const SearchFilter = () => {
     if(searchTerm !== ''){
       const fetchData = async ()=>{
         setLoading(true);
-        const data = await fetchApi(`{baseUrl}/auto-complete?query=${searchTerm}`)
-        setLoading(data?.hits);
+        const data = await fetchApi(`http://127.0.0.1:8000/api/list-properties/`)
+        setLoading(data?.results);
         setLoading(false);
-        searchTerm(data?.hits);
+        setProperties(data?.results);
         fetchData();
-        };
+        };np
     }
   },[searchTerm]);
   

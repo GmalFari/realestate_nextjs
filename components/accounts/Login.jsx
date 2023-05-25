@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
 import {
   Box,
+  Stack,
+  Link,
   Button,
   Checkbox,
   Flex,
@@ -11,16 +13,20 @@ import {
   InputGroup,
   InputRightElement
 } from "@chakra-ui/react";
+import { useToast } from '@chakra-ui/react';
+import MainAlert from "../MainAlert";
 import { useRouter } from "next/router";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState,useEffect,useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 const  LoginComponent=()=> {
-  let {loginUser} = useContext(AuthContext)
-  console.log(loginUser)
+  let {loginUser,errors} = useContext(AuthContext)
+
+  const [submitted,setSubmitted]=useState(false);
+  const toast = useToast()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState(false);
+  // const [errors, setErrors] = useState(false);
   const [loading,setLoading] = useState(true);
   const router = useRouter();
   // useEffect(() => {
@@ -94,6 +100,27 @@ const  LoginComponent=()=> {
             </Button>
           </VStack>
         </form>
+        <Stack pt={6}>
+          <Button 
+          onClick={() => {!submitted?
+                 toast({
+                    title: apiMessage,
+                    description:apiMessage ,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                  }): toast({
+                    title: 'property created.',
+                    description: "We've add your property to listings.",
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                  })
+                }}
+            align={'center'}>
+            ليس لديك حساب <Link href="/accounts/register" color={'blue.400'}>إضافة حساب </Link>
+          </Button>
+        </Stack>
       </Box>
     </Flex>
   );

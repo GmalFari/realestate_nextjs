@@ -1,15 +1,16 @@
 import  { createContext,useContext, useState, useEffect, use } from "react";
 import jwt_decode from "jwt-decode";
 // import { useHistory } from "react-router-dom";
-import Router from "next/router";
-
 import api from "../services/api"
 const AuthContext = createContext();
+import { useRouter } from "next/router";
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
   let myAuthToken = null;
-  let myUser = null
+  let myUser = null;
+  const router = useRouter()
+  const [errors,setErrors] = useState()
   useEffect(()=>{
      myAuthToken = localStorage.getItem('authTokens')?
           JSON.parse(localStorage.getItem('authTokens')):null
@@ -51,20 +52,26 @@ useEffect(()=>{
       console.log(user)
       localStorage.setItem("authTokens", JSON.stringify(data));
       console.log(response.status)
-      Router.push('/create')
+      alert("لقد تم تسجيل الدخول")
+      router.push('/accounts/profile')
       // history.back();
       // Router.back()
     } else {
-        alert("Something went wrong!");
+        // alert("Something went wrong!");
+        alert(`${data.detail} 
+        خطأ في تسجيل الدخول
+        `)
+        setErrors(data)
+
       }
    }catch(errors){
     alert(` ${errors}`)
+    // AlertBox({jamal:1})
+
    }
     };
   const registerUser = async (firstname,lastname,email,password) => {
     // e.preventDefault()
-    console.log("registered user")
-
     try{
       const response = await fetch("http://127.0.0.1:8000/api/users/register/", {
       method: "POST",
@@ -87,13 +94,16 @@ useEffect(()=>{
 
     if (response.status === 201) {
       console.log(response.status)
-      Router.push('/create')
+      router.push('/accounts/login')
     } else {
-      alert("Something went wrong!");
-      console.log(response.status)
+      setErrors(data)
+      // alert("Something went wrong!");
+      // console.log(response.status)
+      // console.log(data)
+
     }
     }catch(err){
-     alert(err) 
+     alert(err)
     }
   };
   
@@ -102,6 +112,9 @@ useEffect(()=>{
     setUser(null);
     localStorage.removeItem("authTokens");
     // Router.push('/accounts/login')
+    // if(!localStorage.getItem("authTokens")){
+    //   router.push("/")
+    // }
 
     
   };
@@ -120,6 +133,7 @@ useEffect(()=>{
       setAuthTokens(data)
       setUser(jwt_decode(data.access))
       localStorage.setItem('authTokens',JSON.stringify(data))
+      router.push("/")
     }else {
       logoutUser() 
     } if (loading) {
@@ -147,8 +161,8 @@ useEffect(()=>{
     loginUser:loginUser,
     authTokens:authTokens,
     logoutUser:logoutUser,
+    errors:errors,
   };
-
   useEffect(() => {
     if (authTokens) {
       setUser(jwt_decode(authTokens.access));

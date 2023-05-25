@@ -2,8 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { Box } from '@chakra-ui/react';
 import { useState,useEffect,useContext } from 'react';
-import { fetchApi,createApi, fetchApi2 } from '../utils/fetchApi';
-import Form1 from "../components/MultiSteps";
+import MultiSteps from "../components/MultiSteps";
 import typeProperty from "../utils/selectedData";
 import yemenGis from "../utils/yemenGis.json"
 import gadm41_YEM_1 from "../utils/gadm41_YEM_1.json";
@@ -54,15 +53,36 @@ const create = () => {
 //   const handleStateChange = (e)=>{
 //     setState(e.target.value)
 //   }
-  
+const [data,setData] = useState(
+  {
+  property_title:"",
+  // coverPhoto:"",
+  // "location":{  
+  //       latitude:"",
+  //       longitude:""},
+  proType:"",
+  purpose:"",
+  rentFrequency:"",
+  rentFrequency:"",
+  city:"",
+  state:"",
+  directorate:"",
+  district:"",
+  district:"",
+  street:"",
+  isForRent:true,
+
+  //form2
+  title:"",
+  img:"",
+})
   return (
     <>
     {user?
     <Box>
-      <Form1/>
-      </Box>:window.location.replace("/accounts/login")}
+      <MultiSteps myData={data} setData={setData}/>
+      </Box>:window.location.replace("/accounts/register")}
       </>
-    
   )
 }
 

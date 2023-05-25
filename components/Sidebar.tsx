@@ -23,9 +23,12 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react';
+import { FaSearch } from 'react-icons/fa';
+
 import {
+  
   FiHome,
-  FiTrendingUp,
+  
   FiCompass,
   FiStar,
   FiSettings,
@@ -46,11 +49,11 @@ import AuthContext from '../context/AuthContext';
 
 const LinkItems: Array<LinkItemProps> = [
   { name: 'الرئيسية',url:'/', icon: FiHome },
-  { name: 'أبحث عن عقار',url:'/search', icon: FiTrendingUp },
-  { name: 'أستأجر عقار ',url:'/', icon: FiCompass },
+  { name: 'أبحث عن عقار',url:'/search', icon: FaSearch },
+  { name: 'أستأجر عقار ',url:'/', icon: FiHome },
   { name: 'بيع عقار',url:'/create', icon: FiStar },
-  { name: '',url:'/agencies', icon: FiStar },
-  { name: 'الإعدادات',url:'/', icon: FiSettings },
+  // { name: '',url:'/agencies', icon: FiStar },
+  // { name: 'الإعدادات',url:'/', icon: FiSettings },
 ];
 
 export default function SidebarWithHeader({
@@ -211,9 +214,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <HStack>
                 <Avatar
                   size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
+          
                 />
                 <VStack
                   display={{ base: 'none', md: 'flex' }}
@@ -233,15 +234,12 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             <MenuList zIndex={999}
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
-              
-              
-              <MenuItem>              
-                  <Link href="/profile/patriot-real-estate-7737" passHref>profile</Link>
-              </MenuItem>
-              <MenuItem>Billing</MenuItem>
               <MenuDivider />
               <MenuItem>
-              <Link href="/accounts/register" passHref>profile</Link>
+              {user?
+                <Link href="/accounts/profile" passHref>صفحتي</Link>
+              :<Link href="/accounts/register" passHref>إضافة حساب</Link>
+              }
               </MenuItem>
               <MenuItem>
                 {user?<Link href="/accounts/logout" passHref>تسجيل خروج</Link>:

@@ -9,18 +9,18 @@ import { Avatar } from "@chakra-ui/react";
 import {FaBed , FaBath} from 'react-icons/fa';
 import { Card,CardBody,CardFooter,Stack,Heading,Button } from "@chakra-ui/react";
 const Property = (
-    {property:{coverPhoto,price,rentFrequency,rooms,title,baths,area,agency,isVerified,externalID,geography}}) => (
+    {property:{coverPhoto,property_price,rentFrequency,rooms,property_title,baths,area,agency,isVerified,externalID,geography}}) => (
         <Flex flexWrap="wrap" flexDirection="column" overflow="hidden" m="2" paddingTop="0" justifyContent="flex-start" cursor="pointer">
             <Link  href={`/property/${externalID}`} passHref>
             <Box me="4" >
-                <Image src={coverPhoto ? coverPhoto.url:DefualtImage} width="300" height="200" alt="default house" />
+                <Image src={coverPhoto ? coverPhoto:DefualtImage} width="300" height="200" alt="default house" />
             </Box>
             </Link>
             <Box >
                 <Flex paddingTop="2" alignItems="center" justifyContent="space-between" >
                     <Flex alignItems="center">
                         <Box paddingRight="3" color="green.400">{isVerified && <GoVerified />}</Box>
-                        <Text fontWeight="bold" fontSize="lg"> ريال يمني  {millify(price)}{rentFrequency && `/${rentFrequency}`}</Text>
+                        <Text fontWeight="bold" fontSize="lg"> ريال يمني  {millify(property_price)}{rentFrequency && `/${rentFrequency}`}</Text>
                     </Flex>
                     <Link href={`/agencies`}>
                     <Box>
@@ -33,7 +33,7 @@ const Property = (
                     {rooms} <FaBed /> | {baths} <FaBath /> | {millify(area)} sqft <BsGridFill />
                 </Flex>
                 <Text fontSize="lg" >
-                    {title.length > 30 ? `${title.substring(0,30)}...`:title}
+                    {property_title.length > 30 ? `${property_title.substring(0,30)}...`:property_title}
                 </Text>
             </Box>
         </Flex>

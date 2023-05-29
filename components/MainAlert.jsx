@@ -25,7 +25,7 @@ const MainAlert=()=> {
       if(islogout){
         logoutUser();
       }
-  },[])
+  },[islogout, logoutUser])
   return (
 
     <>

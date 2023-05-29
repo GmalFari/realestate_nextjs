@@ -5,11 +5,11 @@ import { useEffect } from "react";
 const Logout = () => {
     const authTokens = localStorage.getItem("authTokens");
     const router = useRouter()
-    useEffect(()=>{
-      if(!authTokens){
-        router.push("/")
-      }
-    },[authTokens])
+    // useEffect(()=>{
+    //   if(!authTokens){
+    //     router.push("/")
+    //   }
+    // },[])
   return (
     <Box marginTop="5em" textAlign="center">
     {authTokens?

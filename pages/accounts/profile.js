@@ -19,32 +19,33 @@ export default function SocialProfileWithImage() {
   const {user,authTokens} = useContext(AuthContext);
   const [userDetail,setuserDetail]=useState()
   const router = useRouter();
-  let getuserdetail = async ()=>{
-    console.log('update tokens')
-    try{
-      let response = await fetch('http://127.0.0.1:8000/auth/users/me/',{
-      method:'GET',
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization':`Bearer ${authTokens?.access}`
-
-      },
-    })
-    let data = await response.json()
-    if (response.status === 200) {
-      setuserDetail(data)
-      console.log(userDetail)
-      // router.push("/")
-    }else {
-      alert(error)
-    }
-    }catch(errors){
-      alert(errors)
-    }
-  };
+ 
   useEffect(()=>{
+    let getuserdetail = async ()=>{
+      console.log('update tokens')
+      try{
+        let response = await fetch('http://127.0.0.1:8000/auth/users/me/',{
+        method:'GET',
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization':`Bearer ${authTokens?.access}`
+  
+        },
+      })
+      let data = await response.json()
+      if (response.status === 200) {
+        setuserDetail(data)
+        console.log(userDetail)
+        // router.push("/")
+      }else {
+        alert(error)
+      }
+      }catch(errors){
+        alert(errors)
+      }
+    };
     getuserdetail()
-  },[])
+  },[authTokens?.access,userDetail])
   console.log(user)
     return (
       // <>

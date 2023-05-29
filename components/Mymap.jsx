@@ -23,7 +23,7 @@ const MyMap = ({geoDetail,sizes,ChooseLocation}) =>{
         zoom:7
       })
     })
-  },[])
+  },[viewport])
   function onClickMap(e) {
     // console.log(e.lngLat);
  {ChooseLocation?

@@ -37,7 +37,7 @@ const SearchFilter = ({setProperties}) => {
         fetchData();
         };np
     }
-  },[searchTerm]);
+  },[searchTerm, setProperties]);
   
   
   return (

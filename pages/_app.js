@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import "nprogress/nprogress.css";
 import NProgress  from "nprogress";
 import { useEffect,createContext } from "react";
-import "./carousel.scss";
+// import "./carousel.scss";
 import { AuthProvider } from "../context/AuthContext";
 import paginateCss from "../styles/pagination.css"
 const mapContext = createContext()

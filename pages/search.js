@@ -57,7 +57,7 @@ const Search = ({data}) => {
           .catch((error) => {
             console.log(error);
           });
-      }, [currentPage]);
+      }, []);
 
     const listingsH = [properties.map((property) =>
                <HorizonalCard   property={property} key={property.id} /> 
@@ -108,7 +108,7 @@ const Search = ({data}) => {
         <Flex flexDirection={['column']}  flexWrap="wrap" justifyContent="center" alignItems="center" >
             {!toggleVerticalCard?listingsV:listingsH}
           </Flex>
-         <Flex justifyContent={"center"}>
+          {properties.length !== 0&& <Flex justifyContent={"center"}>
          <li style={{
             "display": "flex",
           "justify-content": "center",
@@ -142,7 +142,7 @@ const Search = ({data}) => {
         >
                 next
             </li>
-         </Flex>
+         </Flex>}
         {properties.length === 0 && (
             <Flex justifyContent="center" alignItems="center" flexDirection="column" marginTop="5" marginBottom="5">
             <Image width="auto" height="auto" alt="no result" src={noresult}/>

@@ -7,7 +7,7 @@ import typeProperty from "../utils/selectedData";
 import yemenGis from "../utils/yemenGis.json"
 import gadm41_YEM_1 from "../utils/gadm41_YEM_1.json";
 import AuthContext from '../context/AuthContext';
-const create = () => {
+const Create = () => {
   const {user} = useContext(AuthContext)
   // const [city , setCity] = useState("")
   // const [state , setState] = useState("")
@@ -53,10 +53,10 @@ const create = () => {
 //   const handleStateChange = (e)=>{
 //     setState(e.target.value)
 //   }
-const [data,setData] = useState(
+const [myData,setData] = useState(
   {
   property_title:"",
-  // coverPhoto:"",
+  coverPhoto:null,
   // "location":{  
   //       latitude:"",
   //       longitude:""},
@@ -80,13 +80,13 @@ const [data,setData] = useState(
     <>
     {user?
     <Box>
-      <MultiSteps myData={data} setData={setData}/>
+      <MultiSteps myData={myData} setData={setData}/>
       </Box>:window.location.replace("/accounts/register")}
       </>
   )
 }
 
-export default create
+export default Create
 
 // export async function getStaticProps() {
 //   const data =await fetchApi('http://127.0.0.1:8000/api/list-persons/')

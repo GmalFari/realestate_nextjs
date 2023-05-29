@@ -9,7 +9,8 @@ import "./carousel.scss";
 import { AuthProvider } from "../context/AuthContext";
 import paginateCss from "../styles/pagination.css"
 const mapContext = createContext()
-
+import "@fontsource/cairo/700.css";
+import theme from"../styles/theme"
 function MyApp({Component,pageProps,router}){
     useEffect(() => {
         const handleRouteStart = () => NProgress.start();
@@ -27,7 +28,7 @@ function MyApp({Component,pageProps,router}){
       }, [router]);
     return (
     
-        <ChakraProvider theme={extendTheme({ direction: "rtl" })}>
+        <ChakraProvider theme={theme}>
             <AuthProvider>
                     <Layout>
                         <Component {...pageProps} />

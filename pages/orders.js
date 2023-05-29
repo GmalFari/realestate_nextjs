@@ -4,7 +4,7 @@ import { useState } from 'react'
 const Orders = () => {
     const [data,setData] = useState(
         {
-        property_title:"",
+        property_title:"jamal",
         // coverPhoto:"",
         // "location":{  
         //       latitude:"",

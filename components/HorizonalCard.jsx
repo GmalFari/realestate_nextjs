@@ -6,7 +6,7 @@ import {Box,Grid,Flex,Text,Avator, Spacer} from '@chakra-ui/react';
 import millify from 'millify';
 import {BsBoxArrowInDown, BsGridFill,BsFillGeoAltFill} from 'react-icons/bs';
 import {GoVerified} from 'react-icons/go'
-import DefualtImage from "../assets/images/webimg2.webp"
+import DefaultImage from '../assets/images/Default_img.jpg'
 import { Avatar } from "@chakra-ui/react";
 import {FaBed , FaBath} from 'react-icons/fa';
 import { Card,CardBody,CardFooter,Stack,Heading,Button } from "@chakra-ui/react";
@@ -33,7 +33,7 @@ const HorizonalCard = (
             cursor="pointer">
             <Link  href={`/property/${externalID}`} passHref>
             <Box  height={'100%'} me="4" >
-                <Img src={coverPhoto ? coverPhoto:DefualtImage} 
+                <Image src={coverPhoto ? coverPhoto:DefaultImage} 
                 borderRadius={2}
                 width={[160,170,250]} 
                 height={[170,200]}
@@ -46,7 +46,7 @@ const HorizonalCard = (
                 <Flex paddingTop="2" alignItems="center" justifyContent="space-between" >
                     <Flex alignItems="center">
                         <Box   paddingRight="0" color="green.400">{isVerified &&  <GoVerified />}</Box>
-                        <Text fontWeight="bold" fontSize="md"> ريال يمني  {millify(property_price)}{rentFrequency && `/${rentFrequency}`}</Text>
+                        <Text fontWeight="bold" fontSize="sm"> ريال يمني  {millify(property_price)| 'none'}{rentFrequency && `/${rentFrequency}`}</Text>
                     </Flex>
                 </Flex>
                 

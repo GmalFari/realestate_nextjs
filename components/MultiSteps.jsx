@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from 'react';
 import dayjs from 'dayjs';
-
 import {
   Progress,
   Box,
@@ -282,6 +281,18 @@ const Form2 = ({myData,setData,title,handleChange,setTitle,setImg}) => {
           onChange={handleChange}
           // onChange={e=>{setTitle(e.target.value)}}
         />
+        <Input
+          type="text"
+          name="coverPhoto"
+          id="coverPhoto"
+          focusBorderColor="brand.400"
+          shadow="sm"
+          size="sm"
+          w="full"
+          rounded="md"
+          onChange={e=>{}}
+          // onChange={e=>{setTitle(e.target.value)}}
+        />
       </FormControl>
       <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
         <FormLabel
@@ -295,20 +306,7 @@ const Form2 = ({myData,setData,title,handleChange,setTitle,setImg}) => {
           mt="2%">
           الصورة الرئيسية للعقار
         </FormLabel>
-        <Input
-          type="file"
-          name="coverPhoto"
-          accept="image/png, image/jpeg"                       
-          id="mainImg"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="sm"
-          w="full"
-          rounded="md"
-          onChange={(e)=>setData({...myData,coverPhoto:e.target.files[0]})}
-          // onChange={e=>{e.target.mainImg.files[0]}}
-
-        />
+        
       </FormControl>
       <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
         <FormLabel
@@ -524,8 +522,7 @@ export default function Multistep({myData,setData}) {
   const purposeList = ['للإيجار','للبيع']
   const rentFrequencyList = ['يومي','اسبوعي','شهري','سنوي','نصف سنوي','ربع سنوي']
  //  //form2
-   const [img,setImg] = useState("")
-  const initailData ={  };
+     const [img,setImg] = useState("")
   // const [data,setData] = useState(myData)
   
    //form3
@@ -535,85 +532,51 @@ export default function Multistep({myData,setData}) {
     setPropertyLocation({longitude:position['longitude'],latitude:position['latitude']})
 }
   
-
-  let testApi = async(e)=>{
+  let testApi = async()=>{
     let token = JSON.parse(localStorage.getItem("authTokens"))
     let accessToken = token?.access
-    e.preventDefault();
+    const myform = new FormData()
+    {myData.coverPhoto &&myform.append("coverPhoto",myData.coverPhoto,"picture.jpg")};
+    myform.append("property_title",myData.property_title);
     const url = 'http://127.0.0.1:8000/api/list-properties/'
         const options = {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',            
-            // 'Content-Disposition':"none",
-       
-          // 'Content-Disposition':"none",
-          'Accept-Encoding': 'gzip',
-          // 'content-type': 'application/x-www-form-urlencoded',
-
-          // 'Content-Type':'application/x-www-form-urlencoded',
+          // 'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryIBWMiF3BTtutX0oq',
           "Authorization" : `Bearer ${accessToken}`,
         },
 
-        body: JSON.stringify(
-          {...myData,
-            // ,
-          //   "location": `{
-          //     "type": "Point",
-          //     "coordinates": [
-          //         ${},
-          //         ${e.target.longitude.value}
-          //     ]
-          // }`
-          // "property_title":myData.property_title,
-          }
-          
-        //   {
-        //   "purpose":e.target.purpose.value,
-        //   "location": `{
-        //     "type": "Point",
-        //     "coordinates": [
-        //         ${e.target.latitude.value},
-        //         ${e.target.longitude.value}
-        //     ]
-        // }`,
-        // "main_img":e.target.mainImg.files[0]
-
-        // }
-        )
+        
       };
+      options.body=myform
 
       try {
         const response = await fetch(url, options);
         const result = await response.json();
         if (response.status ===201){
           setSubmitted(true)
-          // setApiMessage(result)
+          setApiMessage(result)
           console.log(result)
+          setData({...myData,property_title:""})
+          console.log(myform)
         }else {
           setSubmitted(false)
           setApiMessage(result)
-          console.log(result)
-        }
-          
-    
+        }          
       } catch (error) {
         // setApiMessage(error)
         console.log(error)
         setSubmitted(false)
         alert(error)
         setApiMessage(error)
-
       }
     }
-    
     const handleSubmit = async e => {
-    
       e.preventDefault();
       testApi();
     };
-
+    
+    
     const handleChange = (e) => {
       console.log(myData.property_title)
 
@@ -643,10 +606,11 @@ export default function Multistep({myData,setData}) {
                         data={myData}
                         purposeList={purposeList}
                         rentFrequencyList={rentFrequencyList}
-                        data={myData}
                         handleChange={handleChange}
                         />
-                         : step === 2 ? <Form2 myData={myData} setData={setData} handleChange={handleChange} title={myData.property_title}  setImg={setImg} /> :
+                         : step === 2 ? <Form2 myData={myData}
+                          setData={setData} handleChange={handleChange}
+                           title={myData.property_title}  setImg={setImg} /> :
                           <Form3 setPropertyLocation={setPropertyLocation} ChooseLocation={ChooseLocation} />}
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
@@ -680,8 +644,22 @@ export default function Multistep({myData,setData}) {
               </Button>
             </Flex>
             {step === 3 ? (
-              <form onSubmit={testApi} enctype="multipart/form-data">  
-                          <Button
+              <form onSubmit={handleSubmit} enctype="multipart/form-data">  
+              <Input
+          type="file"
+          name="coverPhoto"
+          accept="image/png, image/jpeg"                       
+          id="mainImg"
+          focusBorderColor="brand.400"
+          shadow="sm"
+          size="sm"
+          w="full"
+          rounded="md"
+          onChange={(e)=>setData({...myData,coverPhoto:e.target.files[0]})}
+          // onChange={e=>{e.target.mainImg.files[0]}}
+
+        /> 
+        <Button
                 type="submit"
                 w="8rem"
                 colorScheme="teal"
@@ -710,6 +688,7 @@ export default function Multistep({myData,setData}) {
                 >
                 إضافة عقار
               </Button>
+              
         </form>
             ) : null}
           </Flex>

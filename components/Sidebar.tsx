@@ -67,7 +67,7 @@ export default function SidebarWithHeader({
     style={{"fontFamily":"font-family: 'Cairo', sans-serif"}} >
       <SidebarContent
         onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
+        display={'none'}
       />
       <Drawer
         autoFocus={false}
@@ -104,18 +104,18 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
+      w="full"
       pos="fixed"
       h="full"
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text style={{"fontFamily":"font-family: 'Cairo', sans-serif"}} fontSize="2xl" fontFamily="monospace" fontWeight="bold">
         <Link href="/" passHref>
-          LibnaHouse
+          لبنة هاوس
         </Link>
         </Text>
 
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        <CloseButton display={{ base: 'flex', md: 'flex' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
         <NavItem key={link.name} url={link.url} icon={link.icon}>
@@ -180,10 +180,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       bg={useColorModeValue('white', 'gray.900')}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      justifyContent={{ base: 'space-between', md: 'flex-end' }}
+      justifyContent={{ base: 'space-between', md: 'space-between' }}
       {...rest}>
       <IconButton
-        display={{ base: 'flex', md: 'none' }}
+        display={{ base: 'flex', md: 'flex' }}
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
@@ -191,12 +191,12 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       />
 
       <Text
-        display={{ base: 'flex', md: 'none' }}
+        display={{ base: 'flex', md: 'flex' }}
         fontSize="2xl"
         fontFamily="monospace"
         fontWeight="bold">
         <Link href="/" passHref>
-        LibnaHouse
+          لبنة هاوس
         </Link>
       </Text>
       <HStack spacing={{ base: '0', md: '6' }}>

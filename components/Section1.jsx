@@ -9,17 +9,19 @@ const Section1 = ({image,title,content}) => {
      textAlign="center"
       ms={['2px','5px','50px']}
       me={['2px','5px','10px']}
-      height="fit-content"
+      height="100%"
+      minH={'100%'}
       mt="50px"
       border="1px" 
-      borderColor="rgba(0,0,0,0.3)">
-    <CardBody display={['block','flex','flex','block']} >
-    <Box height="180">
-    <Image src={image}  width={['100%','50%']}  alt="default house" />
+      borderColor="rgba(0,0,0,0.3)"
+      >
+    <CardBody display={['block','block','flex','flex','block']} justifyContent="space-between"  width="100%" h={"100%"}>
+    <Box height={"100%"} >
+    <Image  src={image}  h="100%"  width={['100%']} maxHeight={'60%'} minHeight={"60%"}  alt="default house" />
     </Box>
-    <Box spacing='2' >
-       <Box >
-            <CardHeader p="3px 0 10px " textAlign={"start"} fontSize={['1.5rem','1.6rem','2rem']} fontWeight="600">
+    <Box>
+       <Box>
+            <CardHeader p="3px 0 10px " textAlign={"start"} fontSize={['1rem','1.2rem','1.4rem']} fontWeight="600">
             {title}
             </CardHeader>
             <Text mb="20px" textAlign="right" fontSize="md" lineHeight="1.4">

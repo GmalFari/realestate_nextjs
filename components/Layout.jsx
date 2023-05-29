@@ -26,9 +26,11 @@ export default function Layout({ children }) {
       
       <Box>
       {/* <Navbar /> */}
-      {windowWidth <  767?
-      <Sidebar />:<Navbar />}
-    <main>{children}</main>
+      {/* {windowWidth <  767? */}
+      <Sidebar />
+      {/* :<Navbar /> */}
+    <main>{children}
+    </main>
       <Footer/>
   </Box>
     </Box>

@@ -8,10 +8,11 @@ import {FaBed , FaBath,FaGripHorizontal} from 'react-icons/fa';
 import { BsGridFill } from 'react-icons/bs';
 import { GoVerified,GoKebabVertical } from 'react-icons/go';
 const MainCard = (
-  {property:{id,coverPhoto,price,rentFrequency,rooms,property_title,baths,area
-    ,agency,isVerified,externalID,createdAt}}  
+  {property:{id,coverPhoto,property_price,rent_frequency,rooms,property_title,baths,sqrt_area
+    ,agency,isVerified,externalID,timestamp}}  
   ) => {
-    const date = new Date(createdAt);
+    console.log(timestamp)
+    const date = new Date(timestamp);
     const currentDate = new Date()
     const created = currentDate.getHours() - date.getHours();
     const checkCreatedFunc = created =>{
@@ -27,10 +28,10 @@ const MainCard = (
       
     }
   return (
-    <Link href={`/property/${id}`} passHref>
-     <Card minW="200px" maxW='sm' maxH="300px" >
-      <CardBody position="relative">
-      <Image src={coverPhoto ? coverPhoto:image} width="400" height="200" alt="default house" />
+    <Link href={`/property/${id}`} passHref dir='rtl'>
+     <Card  minW="200px" maxW='sm' maxH="300px" overflow='hidden'>
+      <CardBody   position="relative" >
+      <Image src={coverPhoto ? coverPhoto:image} width="400" overflow="hidden" height="200" alt="default house" />
       <Box   
         position="absolute"
          top="25px"
@@ -43,18 +44,17 @@ const MainCard = (
          >
        <small >جديد-منذ {checkCreatedFunc(created)} </small>
    </Box>
-     <Stack spacing='2'>
+     <Stack direction="rtl">
        <Box >
         <Flex paddingTop="0" alignItems="center" justifyContent="space-between" >
             <Flex alignItems="center">
                 <Box paddingRight="3" color="green.400">{isVerified && <GoVerified />}</Box>
-                <Text fontWeight="bold" fontSize="sm"> AED {millify(price)}{rentFrequency && `/${rentFrequency}`}</Text>
+                <Text fontWeight="bold" fontSize="sm"> {millify(property_price)} ريال {rent_frequency && `/${rent_frequency}`}</Text>
             </Flex>
-            
         </Flex>
        <Heading size='sm'>{property_title.length < 30 ?property_title:`${property_title.substring(0,30)}...`}</Heading>
                 <Flex alignItems="center" p="1" justifyContent="space-between" w="250" color="blue.400">
-                    {rooms} <FaBed /> | {baths} <FaBath /> | {millify(area)} sqft <BsGridFill />
+                    {rooms} <FaBed /> | {baths} <FaBath /> | {millify(sqrt_area)} sqft <BsGridFill />
                 </Flex>
                 <Box>
                 <Text fontSize="md"  >

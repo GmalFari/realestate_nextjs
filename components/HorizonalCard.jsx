@@ -18,9 +18,9 @@ const HorizonalCard = (
         location,rooms,
         baths,area,agency,isVerified,externalID,geography}}) => {
     //   const loc11 = location[3]['name_l1']
-    //   const loc1 = loc11.replace('Dubai','Sanaa');
-    //   const loc2 = location[1]['name_l1'].replace('Dubai','Sanaa');
-    //   const loc3 = location[2]['name_l1'].replace('Dubai','Sanaa');
+    //   const loc1 = loc11.replace('Dubai','Dubai');
+    //   const loc2 = location[1]['name_l1'].replace('Dubai','Dubai');
+    //   const loc3 = location[2]['name_l1'].replace('Dubai','Dubai');
       return (
       <Flex w={['95%','95%','700px','800px']} 
             height={[170,200]} 
@@ -46,7 +46,7 @@ const HorizonalCard = (
                 <Flex paddingTop="2" alignItems="center" justifyContent="space-between" >
                     <Flex alignItems="center">
                         <Box   paddingRight="0" color="green.400">{isVerified &&  <GoVerified />}</Box>
-                        <Text fontWeight="bold" fontSize="sm"> ريال يمني  {millify(property_price)| 'none'}{rentFrequency && `/${rentFrequency}`}</Text>
+                        <Text fontWeight="bold" fontSize="sm"> AED {millify(property_price)| 'none'}{rentFrequency && `/${rentFrequency}`}</Text>
                     </Flex>
                 </Flex>
                 
